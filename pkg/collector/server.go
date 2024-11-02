@@ -193,6 +193,7 @@ func (c *col) start() (err error) {
 }
 
 func (c *col) processFlow(flow *public.Flow) {
+	c.logger.Log("msg", "Received flow")
 	for _, m := range c.filters {
 		if m.fn(flow) {
 			c.droppedFlowsCounter.WithLabelValues(flow.AsIp("sampler").String()).Inc()
@@ -208,6 +209,7 @@ func (c *col) processFlow(flow *public.Flow) {
 }
 
 func (c *col) mapMsg(msg *flowprotob.FlowMessage) *public.Flow {
+	c.logger.Log("msg", "Mapping flow")
 	f := &public.Flow{}
 	f.AddAttr("source_ip", msg.SrcAddr)
 	f.AddAttr("destination_ip", msg.DstAddr)
